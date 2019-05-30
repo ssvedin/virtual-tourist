@@ -1,5 +1,5 @@
 # Virtual Tourist
-Udacity project: Virtual Tourist
+Udacity Project: Virtual Tourist
 
 Virtual Tourist is one of the Portfolio Apps for the iOS Developer Nanodegree from Udacity. It was created to demonstrate persisting a complex model using Core Data, and plist persistence of an array of dictionaries.
 
