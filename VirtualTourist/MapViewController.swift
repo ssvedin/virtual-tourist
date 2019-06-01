@@ -52,9 +52,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         return pinView
     }
     
+    // MARK: Segue to Photo Album on pin tap
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print("tapped on pin ")
+        let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
+        self.navigationController?.pushViewController(controller, animated: true)
     }
-
+    
 }
 
