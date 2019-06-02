@@ -15,6 +15,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    let annotation = MKPointAnnotation()
+    
     // MARK: Life Cycle
     
     override func viewDidLoad() {
@@ -30,9 +32,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if gestureReconizer.state == .began {
             let location = gestureReconizer.location(in: mapView)
             let coordinate = mapView.convert(location,toCoordinateFrom: mapView)
-            let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             mapView.addAnnotation(annotation)
+            print(coordinate)
         }
     }
     
@@ -56,6 +58,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
+        controller.selectedPin = annotation.coordinate
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
