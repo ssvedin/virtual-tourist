@@ -14,6 +14,8 @@
 		04CA8129229F8E710098D10C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04CA8128229F8E710098D10C /* Assets.xcassets */; };
 		04CA812C229F8E710098D10C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 04CA812A229F8E710098D10C /* LaunchScreen.storyboard */; };
 		04CA813422A32C1D0098D10C /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA813322A32C1D0098D10C /* PhotoAlbumViewController.swift */; };
+		04CA813622A431880098D10C /* PhotoSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA813522A431880098D10C /* PhotoSearch.swift */; };
+		04CA813822A4504D0098D10C /* PhotoSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA813722A4504D0098D10C /* PhotoSearchResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		04CA812B229F8E710098D10C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		04CA812D229F8E710098D10C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04CA813322A32C1D0098D10C /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
+		04CA813522A431880098D10C /* PhotoSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearch.swift; sourceTree = "<group>"; };
+		04CA813722A4504D0098D10C /* PhotoSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +65,8 @@
 				04CA811E229F8E6F0098D10C /* AppDelegate.swift */,
 				04CA8120229F8E6F0098D10C /* MapViewController.swift */,
 				04CA813322A32C1D0098D10C /* PhotoAlbumViewController.swift */,
+				04CA813522A431880098D10C /* PhotoSearch.swift */,
+				04CA813722A4504D0098D10C /* PhotoSearchResponse.swift */,
 				04CA8122229F8E6F0098D10C /* Main.storyboard */,
 				04CA8128229F8E710098D10C /* Assets.xcassets */,
 				04CA812A229F8E710098D10C /* LaunchScreen.storyboard */,
@@ -145,6 +151,8 @@
 				04CA811F229F8E6F0098D10C /* AppDelegate.swift in Sources */,
 				04CA8127229F8E6F0098D10C /* VirtualTourist.xcdatamodeld in Sources */,
 				04CA813422A32C1D0098D10C /* PhotoAlbumViewController.swift in Sources */,
+				04CA813622A431880098D10C /* PhotoSearch.swift in Sources */,
+				04CA813822A4504D0098D10C /* PhotoSearchResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

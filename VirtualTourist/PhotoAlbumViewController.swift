@@ -18,12 +18,12 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        showSlectedPin()
+        showSelectedPin()
     }
     
     // MARK: Selected pin
     
-    func showSlectedPin() {
+    func showSelectedPin() {
         mapView.removeAnnotations(mapView.annotations)
         let annotation = MKPointAnnotation()
         annotation.coordinate = selectedPin

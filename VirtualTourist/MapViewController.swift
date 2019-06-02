@@ -16,6 +16,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     
     let annotation = MKPointAnnotation()
+    var photos = [Photo]()
     
     // MARK: Life Cycle
     
@@ -35,6 +36,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             annotation.coordinate = coordinate
             mapView.addAnnotation(annotation)
             print(coordinate)
+            print(coordinate.latitude)
+            print(coordinate.longitude)
         }
     }
     
@@ -59,6 +62,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         controller.selectedPin = annotation.coordinate
+        PhotoSearch.searchPhotos(completion: { (success, error) in
+            if (success != nil) {
+                print("Photo results returned.")
+            } else {
+                print("No photo results returned.")
+            }
+        })
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
