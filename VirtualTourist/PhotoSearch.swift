@@ -14,15 +14,15 @@ class PhotoSearch {
     
     enum Endpoints {
         static let base = "https://api.flickr.com/services/rest"
-        static let recentPhotos = "?method=flickr.photos.getRecent"
+        static let photoSearch = "?method=flickr.photos.search"
         static let apiKey = "49a1e77aa399c3a23a9fca742e91480d"
         
-        case searchRecent
+        case getPhotos
         
         var stringValue: String {
             switch self {
-            case .searchRecent:
-                return Endpoints.base + Endpoints.recentPhotos + "&api_key=\(Endpoints.apiKey)" + "&lat=40.7128&long=74.0060" + "&per_page=20" + "&format=json&nojsoncallback=1"// TODO: change lat long hardcoded to NY
+            case .getPhotos:
+                return Endpoints.base + Endpoints.photoSearch + "&extras=url_sq" + "&api_key=\(Endpoints.apiKey)" + "&lat=40.7128&lon=74.0060" + "&per_page=20" + "&format=json&nojsoncallback=1"// TODO: change lat long hardcoded to NY
             }
         }
         
@@ -32,7 +32,7 @@ class PhotoSearch {
     }
     
     class func searchPhotos(completion: @escaping (Photos?, Error?) -> Void) {
-        var request = URLRequest(url: Endpoints.searchRecent.url)
+        var request = URLRequest(url: Endpoints.getPhotos.url)
         print(request)
         request.httpMethod = "GET"
         

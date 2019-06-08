@@ -17,7 +17,7 @@ struct Photos: Codable {
     let page: Int
     let pages: Int
     let perpage: Int
-    let total: Int
+    let total: String
     let photo: [Photo]
 }
 
@@ -31,6 +31,7 @@ struct Photo: Codable {
     let ispublic: Int
     let isfriend: Int
     let isfamily: Int
+    let url_sq: String
 }
 
 // TODO: CodingKeys
