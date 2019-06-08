@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import UIKit
-import MapKit
+//import UIKit
+//import MapKit
 
 class PhotoSearch {
     
@@ -31,7 +31,7 @@ class PhotoSearch {
         }
     }
     
-    class func searchPhotos(completion: @escaping (PhotoSearchResponse?, Error?) -> Void) {
+    class func searchPhotos(completion: @escaping (Photos?, Error?) -> Void) {
         var request = URLRequest(url: Endpoints.searchRecent.url)
         print(request)
         request.httpMethod = "GET"
@@ -51,9 +51,8 @@ class PhotoSearch {
             do {
                 let response = try JSONDecoder().decode(PhotoSearchResponse.self, from: data)
                 DispatchQueue.main.async {
-                    completion(response, nil)
-                    print(response)
-                    
+                    completion(response.photos, nil)
+                    print(response.photos)
                 }
             } catch {
                 DispatchQueue.main.async {
