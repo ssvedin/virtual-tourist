@@ -10,6 +10,7 @@ import Foundation
 
 struct PhotoSearchResponse: Codable {
     let photos: Photos
+    let stat: String
 }
 
 struct Photos: Codable {
@@ -18,7 +19,6 @@ struct Photos: Codable {
     let perpage: Int
     let total: Int
     let photo: [Photo]
-    let stat: String
 }
 
 struct Photo: Codable {

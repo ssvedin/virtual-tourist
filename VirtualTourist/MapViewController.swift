@@ -63,7 +63,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         controller.selectedPin = annotation.coordinate
         PhotoSearch.searchPhotos(completion: { (success, error) in
-            if (success) != nil) {
+            if (success != nil) {
                 print("Photo results returned.")
             } else {
                 print("No photo results returned.")
