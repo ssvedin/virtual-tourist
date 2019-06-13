@@ -63,23 +63,37 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="MhM-5U-N6o">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCollectionViewCell" id="MhM-5U-N6o" customClass="PhotoCollectionViewCell" customModule="VirtualTourist" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9G4-P9-NOn">
+                                                    <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                            </subviews>
                                         </view>
+                                        <size key="customSize" width="120" height="120"/>
+                                        <connections>
+                                            <outlet property="photoImageView" destination="9G4-P9-NOn" id="a8Z-ic-zcy"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="L42-aL-1KP" id="dxt-QU-hCi"/>
+                                    <outlet property="delegate" destination="L42-aL-1KP" id="ISu-B9-3zh"/>
+                                </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="MSb-hq-3fu" firstAttribute="trailing" secondItem="MMA-Dv-qhg" secondAttribute="trailing" id="3Ak-Ta-tdD"/>
+                            <constraint firstItem="XL4-1f-SPV" firstAttribute="top" secondItem="MSb-hq-3fu" secondAttribute="bottom" constant="8" id="4RP-ao-ekw"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="top" secondItem="MMA-Dv-qhg" secondAttribute="top" constant="178" id="HnQ-1E-Ndi"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="leading" secondItem="MMA-Dv-qhg" secondAttribute="leading" id="cWD-No-MA6"/>
-                            <constraint firstItem="MSb-hq-3fu" firstAttribute="bottom" secondItem="MMA-Dv-qhg" secondAttribute="bottom" constant="-648" id="dV4-Gn-Fbw"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="bottom" secondItem="MMA-Dv-qhg" secondAttribute="bottom" id="fOx-Qr-gKH"/>
                             <constraint firstItem="MSb-hq-3fu" firstAttribute="top" secondItem="MMA-Dv-qhg" secondAttribute="top" id="sUO-y5-ju6"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="trailing" secondItem="MMA-Dv-qhg" secondAttribute="trailing" id="uMk-WF-cKS"/>
@@ -88,6 +102,7 @@
                         <viewLayoutGuide key="safeArea" id="MMA-Dv-qhg"/>
                     </view>
                     <connections>
+                        <outlet property="flowLayout" destination="sg7-BD-uKA" id="Bsb-p4-nAI"/>
                         <outlet property="mapView" destination="MSb-hq-3fu" id="9AY-05-sJC"/>
                         <segue destination="BYZ-38-t0r" kind="showDetail" identifier="showPhotoAlbum" id="OcQ-Ou-niy"/>
                     </connections>

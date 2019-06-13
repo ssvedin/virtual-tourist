@@ -22,7 +22,7 @@ class PhotoSearch {
         var stringValue: String {
             switch self {
             case .getPhotos:
-                return Endpoints.base + Endpoints.photoSearch + "&extras=url_sq" + "&api_key=\(Endpoints.apiKey)" + "&lat=40.7128&lon=74.0060" + "&per_page=20" + "&format=json&nojsoncallback=1"// TODO: change lat long hardcoded to NY
+                return Endpoints.base + Endpoints.photoSearch + "&extras=url_sq" + "&api_key=\(Endpoints.apiKey)" + "&lat=40.7128&lon=74.0060" + "&per_page=21" + "&format=json&nojsoncallback=1"// TODO: change lat long hardcoded to NY
             }
         }
         
@@ -63,4 +63,18 @@ class PhotoSearch {
         }
         task.resume()
     }
+    
+    class func downloadPhoto(url: URL, completion: @escaping (Data?, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                completion(nil, error)
+                print("no data, or there was an error")
+                return
+            }
+            completion(data, nil)
+            print("Photos downloaded")
+        }
+        task.resume()
+    }    
+    
 }

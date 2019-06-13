@@ -11,7 +11,7 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     
-    // MARK: Outlet
+    // MARK: Outlets and Properties
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -62,13 +62,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         controller.selectedPin = annotation.coordinate
-        PhotoSearch.searchPhotos(completion: { (success, error) in
-            if (success != nil) {
-                print("Photo results returned.")
-            } else {
-                print("No photo results returned.")
-            }
-        })
         self.navigationController?.pushViewController(controller, animated: true)
     }
     

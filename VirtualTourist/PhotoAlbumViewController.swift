@@ -9,16 +9,42 @@
 import UIKit
 import MapKit
 
-class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
+class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    // MARK: Outlets and properties
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     var selectedPin: CLLocationCoordinate2D!
+    var photos: [Photo] = []
+    
+    // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
         showSelectedPin()
+        
+        let space:CGFloat = 3.0
+        let width = 120.0
+        let height = 120.0
+        
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.minimumLineSpacing = space
+        flowLayout.itemSize = CGSize(width: width, height: height)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        PhotoSearch.searchPhotos(completion: { (success, error) in
+            if (success != nil) {
+                print("Photo results returned.")
+                self.getPhotoUrl()
+            } else {
+                print("No photo results returned.")
+            }
+        })
     }
     
     // MARK: Selected pin
@@ -46,5 +72,32 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate {
         }
         return pinView
     }
+    
+     func getPhotoUrl() {
+        for photo in photos {
+            _ = photo.url_sq
+            photos.append(photo)
+        }
+     }
+    
+    // MARK: Collection View Data Source
+ 
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return photos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
+        let cellImage = photos[indexPath.row]
+        
+        let url = URL(string: cellImage.url_sq)
+        PhotoSearch.downloadPhoto(url: url!) { (data, error) in
+            DispatchQueue.main.async {
+                cell.photoImageView?.image = UIImage(data: data!)
+            }
+        }
+        return cell
+    }
 
 }
+
