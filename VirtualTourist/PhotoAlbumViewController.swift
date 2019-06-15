@@ -17,7 +17,10 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     @IBOutlet weak var photoCollection: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
+    let annotation = MKPointAnnotation()
     var selectedPin: CLLocationCoordinate2D!
+    var lat: Double = 0.0
+    var lon: Double = 0.0
     var photos: [Photo] = []
     
     // MARK: Life Cycle
@@ -25,7 +28,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        showSelectedPin()
         
         let space:CGFloat = 3.0
         let width = 120.0
@@ -38,7 +40,8 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        PhotoSearch.searchPhotos(completion: { (photos, error) in
+        showSelectedPin()
+        PhotoSearch.searchPhotos(lat: lat, lon: lon, completion: { (photos, error) in
             if (photos != nil) {
                 print("Photo results returned.")
                 self.photos = (photos?.photo)!
@@ -53,9 +56,12 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     
     func showSelectedPin() {
         mapView.removeAnnotations(mapView.annotations)
-        let annotation = MKPointAnnotation()
         annotation.coordinate = selectedPin
         mapView.addAnnotation(annotation)
+        lat = selectedPin.latitude
+        lon = selectedPin.longitude
+        print(selectedPin.latitude)
+        print(selectedPin.longitude)
         mapView.showAnnotations(mapView.annotations, animated: true)
     }
     

@@ -7,8 +7,6 @@
 //
 
 import Foundation
-//import UIKit
-//import MapKit
 
 class PhotoSearch {
     
@@ -17,12 +15,12 @@ class PhotoSearch {
         static let photoSearch = "?method=flickr.photos.search"
         static let apiKey = "49a1e77aa399c3a23a9fca742e91480d"
         
-        case getPhotos
+        case getPhotos(Double, Double)
         
         var stringValue: String {
             switch self {
-            case .getPhotos:
-                return Endpoints.base + Endpoints.photoSearch + "&extras=url_sq" + "&api_key=\(Endpoints.apiKey)" + "&lat=40.7128&lon=74.0060" + "&per_page=21" + "&format=json&nojsoncallback=1"// TODO: change lat long hardcoded to NY
+            case .getPhotos(let lat, let lon):
+                return Endpoints.base + Endpoints.photoSearch + "&extras=url_sq" + "&api_key=\(Endpoints.apiKey)" + "&lat=\(lat)" + "&lon=\(lon)" + "&per_page=21" + "&format=json&nojsoncallback=1"
             }
         }
         
@@ -31,8 +29,10 @@ class PhotoSearch {
         }
     }
     
-    class func searchPhotos(completion: @escaping (Photos?, Error?) -> Void) {
-        var request = URLRequest(url: Endpoints.getPhotos.url)
+    // MARK: Search for photos and parse results
+    
+    class func searchPhotos(lat: Double, lon: Double, completion: @escaping (Photos?, Error?) -> Void) {
+        var request = URLRequest(url: Endpoints.getPhotos(lat, lon).url)
         print(request)
         request.httpMethod = "GET"
         
@@ -53,6 +53,10 @@ class PhotoSearch {
                 DispatchQueue.main.async {
                     completion(response.photos, nil)
                     print(response.photos)
+                    if response.photos.pages == 0 {
+                        print("There are no photos for this location.")
+                        // TODO: Show error message on screen.
+                    }
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -63,6 +67,8 @@ class PhotoSearch {
         }
         task.resume()
     }
+    
+    // MARK: Download photos
     
     class func downloadPhoto(url: URL, completion: @escaping (Data?, Error?) -> Void) {
         let task = URLSession.shared.dataTask(with: url) { data, response, error in

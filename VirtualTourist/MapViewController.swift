@@ -35,7 +35,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let coordinate = mapView.convert(location,toCoordinateFrom: mapView)
             annotation.coordinate = coordinate
             mapView.addAnnotation(annotation)
-            print(coordinate)
             print(coordinate.latitude)
             print(coordinate.longitude)
         }
