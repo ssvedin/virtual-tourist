@@ -104,6 +104,7 @@
                     <connections>
                         <outlet property="flowLayout" destination="sg7-BD-uKA" id="Bsb-p4-nAI"/>
                         <outlet property="mapView" destination="MSb-hq-3fu" id="9AY-05-sJC"/>
+                        <outlet property="photoCollection" destination="XL4-1f-SPV" id="Fv2-DG-2vo"/>
                         <segue destination="BYZ-38-t0r" kind="showDetail" identifier="showPhotoAlbum" id="OcQ-Ou-niy"/>
                     </connections>
                 </viewController>

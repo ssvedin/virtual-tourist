@@ -14,6 +14,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     // MARK: Outlets and properties
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var photoCollection: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     var selectedPin: CLLocationCoordinate2D!
@@ -37,10 +38,11 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        PhotoSearch.searchPhotos(completion: { (success, error) in
-            if (success != nil) {
+        PhotoSearch.searchPhotos(completion: { (photos, error) in
+            if (photos != nil) {
                 print("Photo results returned.")
-                self.getPhotoUrl()
+                self.photos = (photos?.photo)!
+                self.photoCollection.reloadData()
             } else {
                 print("No photo results returned.")
             }
@@ -72,14 +74,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
         }
         return pinView
     }
-    
-     func getPhotoUrl() {
-        for photo in photos {
-            _ = photo.url_sq
-            photos.append(photo)
-        }
-     }
-    
+
     // MARK: Collection View Data Source
  
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -72,7 +72,6 @@ class PhotoSearch {
                 return
             }
             completion(data, nil)
-            print("Photos downloaded")
         }
         task.resume()
     }    
