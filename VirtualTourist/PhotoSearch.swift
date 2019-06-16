@@ -15,12 +15,12 @@ class PhotoSearch {
         static let photoSearch = "?method=flickr.photos.search"
         static let apiKey = "49a1e77aa399c3a23a9fca742e91480d"
         
-        case getPhotos(Double, Double)
+        case getPhotos(Double, Double, Int)
         
         var stringValue: String {
             switch self {
-            case .getPhotos(let lat, let lon):
-                return Endpoints.base + Endpoints.photoSearch + "&extras=url_sq" + "&api_key=\(Endpoints.apiKey)" + "&lat=\(lat)" + "&lon=\(lon)" + "&per_page=21" + "&format=json&nojsoncallback=1"
+            case .getPhotos(let lat, let lon, let page):
+                return Endpoints.base + Endpoints.photoSearch + "&extras=url_sq" + "&api_key=\(Endpoints.apiKey)" + "&lat=\(lat)" + "&lon=\(lon)" + "&per_page=21" + "&page=\(page)" + "&format=json&nojsoncallback=1"
             }
         }
         
@@ -31,8 +31,8 @@ class PhotoSearch {
     
     // MARK: Search for photos and parse results
     
-    class func searchPhotos(lat: Double, lon: Double, completion: @escaping (Photos?, Error?) -> Void) {
-        var request = URLRequest(url: Endpoints.getPhotos(lat, lon).url)
+    class func searchPhotos(lat: Double, lon: Double, page: Int, completion: @escaping (Photos?, Error?) -> Void) {
+        var request = URLRequest(url: Endpoints.getPhotos(lat, lon, page).url)
         print(request)
         request.httpMethod = "GET"
         
@@ -50,12 +50,15 @@ class PhotoSearch {
             }
             do {
                 let response = try JSONDecoder().decode(PhotoSearchResponse.self, from: data)
+                var randomPage = Int.random(in: 0..<response.photos.pages)
+                randomPage = getPhotos.page
                 DispatchQueue.main.async {
                     completion(response.photos, nil)
                     print(response.photos)
                     if response.photos.pages == 0 {
                         print("There are no photos for this location.")
                         // TODO: Show error message on screen.
+                        // TODO: Disable New Collection button
                     }
                 }
             } catch {

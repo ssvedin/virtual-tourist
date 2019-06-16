@@ -21,6 +21,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     var selectedPin: CLLocationCoordinate2D!
     var lat: Double = 0.0
     var lon: Double = 0.0
+    var page: Int = 0
     var photos: [Photo] = []
     
     // MARK: Life Cycle
@@ -41,7 +42,22 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showSelectedPin()
-        PhotoSearch.searchPhotos(lat: lat, lon: lon, completion: { (photos, error) in
+        PhotoSearch.searchPhotos(lat: lat, lon: lon, page: page, completion: { (photos, error) in
+            if (photos != nil) {
+                print("Photo results returned.")
+                self.photos = (photos?.photo)!
+                self.photoCollection.reloadData()
+            } else {
+                print("No photo results returned.")
+            }
+        })
+    }
+    
+    
+    @IBAction func loadNewCollection(_ sender: UIBarButtonItem) {
+        photos = [Photo]()
+        photoCollection.reloadData()
+        PhotoSearch.searchPhotos(lat: lat, lon: lon, page: page, completion: { (photos, error) in
             if (photos != nil) {
                 print("Photo results returned.")
                 self.photos = (photos?.photo)!

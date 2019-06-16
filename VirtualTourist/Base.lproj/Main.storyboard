@@ -54,12 +54,12 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="170"/>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XL4-1f-SPV">
-                                <rect key="frame" x="0.0" y="222" width="414" height="640"/>
+                                <rect key="frame" x="0.0" y="222" width="414" height="591"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sg7-BD-uKA">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="53"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
@@ -82,17 +82,36 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="TFs-k7-N5c">
+                                    <rect key="frame" x="0.0" y="120" width="414" height="53"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="L42-aL-1KP" id="dxt-QU-hCi"/>
                                     <outlet property="delegate" destination="L42-aL-1KP" id="ISu-B9-3zh"/>
                                 </connections>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KZF-cz-Csd">
+                                <rect key="frame" x="0.0" y="817" width="414" height="49"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="1cx-MI-xUr"/>
+                                    <barButtonItem title="View Collection" id="cFP-CJ-X1Z" userLabel="New Collection">
+                                        <connections>
+                                            <action selector="loadNewCollection:" destination="L42-aL-1KP" id="NTq-Xc-jhW"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="a4y-dg-SbY"/>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="KZF-cz-Csd" secondAttribute="trailing" id="1Cn-6h-PvS"/>
                             <constraint firstItem="MSb-hq-3fu" firstAttribute="trailing" secondItem="MMA-Dv-qhg" secondAttribute="trailing" id="3Ak-Ta-tdD"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="top" secondItem="MSb-hq-3fu" secondAttribute="bottom" constant="8" id="4RP-ao-ekw"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="top" secondItem="MMA-Dv-qhg" secondAttribute="top" constant="178" id="HnQ-1E-Ndi"/>
+                            <constraint firstAttribute="bottom" secondItem="KZF-cz-Csd" secondAttribute="bottom" constant="30" id="IF2-rG-kf4"/>
+                            <constraint firstItem="KZF-cz-Csd" firstAttribute="leading" secondItem="59H-LI-8fT" secondAttribute="leading" id="M4Y-Kw-Ue0"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="leading" secondItem="MMA-Dv-qhg" secondAttribute="leading" id="cWD-No-MA6"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="bottom" secondItem="MMA-Dv-qhg" secondAttribute="bottom" id="fOx-Qr-gKH"/>
                             <constraint firstItem="MSb-hq-3fu" firstAttribute="top" secondItem="MMA-Dv-qhg" secondAttribute="top" id="sUO-y5-ju6"/>
@@ -101,6 +120,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MMA-Dv-qhg"/>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="flowLayout" destination="sg7-BD-uKA" id="Bsb-p4-nAI"/>
                         <outlet property="mapView" destination="MSb-hq-3fu" id="9AY-05-sJC"/>
