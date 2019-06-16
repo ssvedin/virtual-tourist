@@ -50,8 +50,6 @@ class PhotoSearch {
             }
             do {
                 let response = try JSONDecoder().decode(PhotoSearchResponse.self, from: data)
-                var randomPage = Int.random(in: 0..<response.photos.pages)
-                randomPage = getPhotos.page
                 DispatchQueue.main.async {
                     completion(response.photos, nil)
                     print(response.photos)

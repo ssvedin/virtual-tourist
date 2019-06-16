@@ -42,25 +42,27 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showSelectedPin()
-        PhotoSearch.searchPhotos(lat: lat, lon: lon, page: page, completion: { (photos, error) in
-            if (photos != nil) {
-                print("Photo results returned.")
-                self.photos = (photos?.photo)!
-                self.photoCollection.reloadData()
-            } else {
-                print("No photo results returned.")
-            }
-        })
+        getPhotos()
     }
     
+    // MARK: Load new photo collection
     
     @IBAction func loadNewCollection(_ sender: UIBarButtonItem) {
-        photos = [Photo]()
+        photos = []
         photoCollection.reloadData()
+        getPhotos()
+    }
+    
+    // MARK: Get random photos for selected pin
+    
+    func getPhotos() {
         PhotoSearch.searchPhotos(lat: lat, lon: lon, page: page, completion: { (photos, error) in
             if (photos != nil) {
                 print("Photo results returned.")
                 self.photos = (photos?.photo)!
+                let randomPage = Int.random(in: 0...photos!.pages)
+                self.page = randomPage
+                print(self.page)
                 self.photoCollection.reloadData()
             } else {
                 print("No photo results returned.")
@@ -69,7 +71,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     }
     
     // MARK: Selected pin
-    
+        
     func showSelectedPin() {
         mapView.removeAnnotations(mapView.annotations)
         annotation.coordinate = selectedPin
