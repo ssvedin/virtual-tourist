@@ -114,6 +114,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
         let cellImage = photos[indexPath.row]
+        cell.photoImageView?.image = UIImage(named:"ImagePlaceholder")
         
         let url = URL(string: cellImage.url_sq)
         PhotoSearch.downloadPhoto(url: url!) { (data, error) in
