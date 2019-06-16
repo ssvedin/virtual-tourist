@@ -62,6 +62,13 @@
                                     <size key="footerReferenceSize" width="0.0" height="53"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <label key="backgroundView" hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no photos for this location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iRJ-zw-Pus">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="591"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCollectionViewCell" id="MhM-5U-N6o" customClass="PhotoCollectionViewCell" customModule="VirtualTourist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
@@ -70,12 +77,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9G4-P9-NOn">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9G4-P9-NOn">
                                                     <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="9G4-P9-NOn" secondAttribute="trailing" id="49e-VP-3Dq"/>
+                                            <constraint firstAttribute="bottom" secondItem="9G4-P9-NOn" secondAttribute="bottom" id="h94-Pp-Caz"/>
+                                            <constraint firstItem="9G4-P9-NOn" firstAttribute="leading" secondItem="MhM-5U-N6o" secondAttribute="leading" id="nIM-Bi-9bx"/>
+                                            <constraint firstItem="9G4-P9-NOn" firstAttribute="top" secondItem="MhM-5U-N6o" secondAttribute="top" id="zik-BH-ciy"/>
+                                        </constraints>
                                         <size key="customSize" width="120" height="120"/>
                                         <connections>
                                             <outlet property="photoImageView" destination="9G4-P9-NOn" id="a8Z-ic-zcy"/>
@@ -92,7 +104,7 @@
                                 </connections>
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KZF-cz-Csd">
-                                <rect key="frame" x="0.0" y="817" width="414" height="49"/>
+                                <rect key="frame" x="0.0" y="1299" width="0.0" height="49"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="1cx-MI-xUr"/>
                                     <barButtonItem title="New Collection" id="cFP-CJ-X1Z" userLabel="New Collection">
@@ -125,6 +137,7 @@
                     <connections>
                         <outlet property="flowLayout" destination="sg7-BD-uKA" id="Bsb-p4-nAI"/>
                         <outlet property="mapView" destination="MSb-hq-3fu" id="9AY-05-sJC"/>
+                        <outlet property="noPhotosLabel" destination="iRJ-zw-Pus" id="vWP-ed-dj7"/>
                         <outlet property="photoCollection" destination="XL4-1f-SPV" id="Fv2-DG-2vo"/>
                         <segue destination="BYZ-38-t0r" kind="showDetail" identifier="showPhotoAlbum" id="OcQ-Ou-niy"/>
                     </connections>

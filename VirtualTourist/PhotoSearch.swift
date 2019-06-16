@@ -53,11 +53,6 @@ class PhotoSearch {
                 DispatchQueue.main.async {
                     completion(response.photos, nil)
                     print(response.photos)
-                    if response.photos.pages == 0 {
-                        print("There are no photos for this location.")
-                        // TODO: Show error message on screen.
-                        // TODO: Disable New Collection button
-                    }
                 }
             } catch {
                 DispatchQueue.main.async {

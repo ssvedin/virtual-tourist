@@ -16,6 +16,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var photoCollection: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var noPhotosLabel: UILabel!
     
     let annotation = MKPointAnnotation()
     var selectedPin: CLLocationCoordinate2D!
@@ -64,8 +65,13 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
                 self.page = randomPage
                 print(self.page)
                 self.photoCollection.reloadData()
+                if photos?.pages == 0 {
+                    print("There are no photos for this location.")
+                    self.noPhotosLabel.isHidden = false
+                // TODO: Disable New Collection button
+                }
             } else {
-                print("No photo results returned.")
+                print("There was an error retrieving photos.")
             }
         })
     }
