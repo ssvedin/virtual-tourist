@@ -27,6 +27,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.addGestureRecognizer(gestureRecognizer)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        mapView.deselectAnnotation(annotation, animated: false)
+    }
+    
     // MARK: Add pin on long press
     
     @objc func handleTap(gestureReconizer: UIGestureRecognizer) {

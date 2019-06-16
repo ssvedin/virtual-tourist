@@ -95,7 +95,7 @@
                                 <rect key="frame" x="0.0" y="817" width="414" height="49"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="1cx-MI-xUr"/>
-                                    <barButtonItem title="View Collection" id="cFP-CJ-X1Z" userLabel="New Collection">
+                                    <barButtonItem title="New Collection" id="cFP-CJ-X1Z" userLabel="New Collection">
                                         <connections>
                                             <action selector="loadNewCollection:" destination="L42-aL-1KP" id="NTq-Xc-jhW"/>
                                         </connections>
