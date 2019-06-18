@@ -7,4 +7,4 @@ Virtual Tourist is one of the Portfolio Apps for the iOS Developer Nanodegree fr
 The Virtual Tourist app downloads and stores images from Flickr. The app allows users to drop pins on a map, as if they were stops on a tour. Users will then be able to download pictures for the location and persist both the pictures, and the association of the pictures with the pin.
 
 ## Requirements
-This application was built using Xcode 10.2.1 and can be run on iOS 12.1 devices or simulators
+This application was built using Xcode 10.2.1 and can be run on iOS 12.2 devices or simulators
