@@ -21,12 +21,31 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="5J5-xf-0uN">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                             </mapView>
+                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O7m-6R-Y4Q">
+                                <rect key="frame" x="0.0" y="822" width="414" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="NUO-1F-Fif"/>
+                                </constraints>
+                                <items/>
+                                <color key="barTintColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </toolbar>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Pins to Delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eL1-2O-d9T">
+                                <rect key="frame" x="138" y="832" width="138" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="5J5-xf-0uN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="8fV-1V-HX7"/>
+                            <constraint firstItem="eL1-2O-d9T" firstAttribute="centerY" secondItem="O7m-6R-Y4Q" secondAttribute="centerY" constant="0.5" id="8wX-hx-P6V"/>
                             <constraint firstItem="5J5-xf-0uN" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="IB7-7U-SIv"/>
                             <constraint firstItem="5J5-xf-0uN" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="INv-SI-Q1P"/>
+                            <constraint firstItem="eL1-2O-d9T" firstAttribute="centerX" secondItem="O7m-6R-Y4Q" secondAttribute="centerX" id="MYJ-8e-pX7"/>
+                            <constraint firstItem="O7m-6R-Y4Q" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Rle-Tm-mDT"/>
+                            <constraint firstItem="O7m-6R-Y4Q" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="iEi-Cx-TgD"/>
+                            <constraint firstItem="O7m-6R-Y4Q" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="tg3-xd-RVa"/>
                             <constraint firstItem="5J5-xf-0uN" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="x6C-jc-gBq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -35,7 +54,9 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="yLq-ns-ozU"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="deletePinsLabel" destination="eL1-2O-d9T" id="dTv-nJ-9rm"/>
                         <outlet property="mapView" destination="5J5-xf-0uN" id="iCg-1D-r44"/>
+                        <outlet property="toolBar" destination="O7m-6R-Y4Q" id="rie-2K-hyI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -104,7 +125,7 @@
                                 </connections>
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KZF-cz-Csd">
-                                <rect key="frame" x="0.0" y="1299" width="0.0" height="49"/>
+                                <rect key="frame" x="0.0" y="817" width="414" height="49"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="1cx-MI-xUr"/>
                                     <barButtonItem title="New Collection" id="cFP-CJ-X1Z" userLabel="New Collection">

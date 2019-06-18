@@ -14,6 +14,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // MARK: Outlets and Properties
     
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var toolBar: UIToolbar!
+    @IBOutlet weak var deletePinsLabel: UILabel!
     
     let annotation = MKPointAnnotation()
     var photos = [Photo]()
@@ -25,6 +27,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.delegate = self
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleTap))
         mapView.addGestureRecognizer(gestureRecognizer)
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.rightBarButtonItem!.title = "Edit"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,6 +71,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         controller.selectedPin = annotation.coordinate
         self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    // MARK: Edit button
+    
+    override func setEditing(_ editing:Bool, animated:Bool) {
+        super.setEditing(editing, animated: animated)
+        if (self.isEditing) {
+            toolBar.isHidden = false
+            deletePinsLabel.isHidden = false
+            self.editButtonItem.title = "Done"
+        } else {
+            toolBar.isHidden = true
+            deletePinsLabel.isHidden = true
+            self.editButtonItem.title = "Edit"
+        }
     }
     
 }
