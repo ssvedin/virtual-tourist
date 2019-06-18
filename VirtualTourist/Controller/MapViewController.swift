@@ -68,11 +68,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // MARK: Segue to Photo Album on pin tap
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if isEditing {
+            mapView.removeAnnotation(annotation)
+            return
+        }
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         controller.selectedPin = annotation.coordinate
         self.navigationController?.pushViewController(controller, animated: true)
     }
-    
+ 
     // MARK: Edit button
     
     override func setEditing(_ editing:Bool, animated:Bool) {
