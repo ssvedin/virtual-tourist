@@ -17,8 +17,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var deletePinsLabel: UILabel!
     
-    let annotation = MKPointAnnotation()
-    var photos = [Photo]()
+    var annotations = [MKPointAnnotation]()
+    //var selectedPinCoordinate: CLLocationCoordinate2D!
+    var selectedLatitude: Double = 0.0
+    var selectedLongitude: Double = 0.0
     
     // MARK: Life Cycle
     
@@ -33,7 +35,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        mapView.deselectAnnotation(annotation, animated: false)
+        mapView.deselectAnnotation(annotations as? MKAnnotation, animated: false)
     }
     
     // MARK: Add pin on long press
@@ -42,8 +44,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if gestureReconizer.state == .began {
             let location = gestureReconizer.location(in: mapView)
             let coordinate = mapView.convert(location,toCoordinateFrom: mapView)
+            let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
-            mapView.addAnnotation(annotation)
+            selectedLatitude = coordinate.latitude
+            selectedLongitude = coordinate.longitude
+            self.annotations.append(annotation)
+            mapView.addAnnotation(annotation as MKAnnotation)
             print(coordinate.latitude)
             print(coordinate.longitude)
         }
@@ -68,12 +74,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // MARK: Segue to Photo Album on pin tap
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate.latitude = selectedLatitude
+        annotation.coordinate.longitude = selectedLongitude
         if isEditing {
-            mapView.removeAnnotation(annotation)
+            mapView.removeAnnotation(annotation as MKAnnotation)
             return
         }
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
-        controller.selectedPin = annotation.coordinate
+        //controller.selectedPin = annotation.coordinate
+        controller.lat = selectedLatitude
+        controller.lon = selectedLongitude
+        print(annotation.coordinate)
         self.navigationController?.pushViewController(controller, animated: true)
     }
  

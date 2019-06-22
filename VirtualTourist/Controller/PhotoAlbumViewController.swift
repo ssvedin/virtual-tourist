@@ -20,7 +20,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     @IBOutlet weak var newCollectionButton: UIBarButtonItem!
     
     let annotation = MKPointAnnotation()
-    var selectedPin: CLLocationCoordinate2D!
+    //var selectedPin: CLLocationCoordinate2D!
     var myIndicator: UIActivityIndicatorView!
     var lat: Double = 0.0
     var lon: Double = 0.0
@@ -93,12 +93,13 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
         
     func showSelectedPin() {
         mapView.removeAnnotations(mapView.annotations)
-        annotation.coordinate = selectedPin
+        annotation.coordinate.latitude = lat
+        annotation.coordinate.longitude = lon
         mapView.addAnnotation(annotation)
-        lat = selectedPin.latitude
-        lon = selectedPin.longitude
-        print(selectedPin.latitude)
-        print(selectedPin.longitude)
+        //lat = selectedPin.latitude
+        //lon = selectedPin.longitude
+       // print(selectedPin.latitude)
+       // print(selectedPin.longitude)
         mapView.showAnnotations(mapView.annotations, animated: true)
     }
     
