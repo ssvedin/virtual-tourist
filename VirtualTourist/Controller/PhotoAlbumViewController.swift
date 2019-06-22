@@ -17,9 +17,11 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     @IBOutlet weak var photoCollection: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var noPhotosLabel: UILabel!
+    @IBOutlet weak var newCollectionButton: UIBarButtonItem!
     
     let annotation = MKPointAnnotation()
     var selectedPin: CLLocationCoordinate2D!
+    var myIndicator: UIActivityIndicatorView!
     var lat: Double = 0.0
     var lon: Double = 0.0
     var page: Int = 0
@@ -38,6 +40,12 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space
         flowLayout.itemSize = CGSize(width: width, height: height)
+        
+        myIndicator = UIActivityIndicatorView (style: UIActivityIndicatorView.Style.gray)
+        self.view.addSubview(myIndicator)
+        myIndicator.bringSubviewToFront(self.view)
+        myIndicator.center = self.view.center
+        showActivityIndicator()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,9 +57,11 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     // MARK: Load new photo collection
     
     @IBAction func loadNewCollection(_ sender: UIBarButtonItem) {
+        showActivityIndicator()
+        newCollectionButton.isEnabled = false
         photos = []
-        photoCollection.reloadData()
         getPhotos()
+        photoCollection.reloadData()
     }
     
     // MARK: Get random photos for selected pin
@@ -65,13 +75,16 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
                 self.page = randomPage
                 print(self.page)
                 self.photoCollection.reloadData()
+                self.hideActivityIndicator()
                 if photos?.pages == 0 {
                     print("There are no photos for this location.")
                     self.noPhotosLabel.isHidden = false
-                // TODO: Disable New Collection button
+                    self.newCollectionButton.isEnabled = false
                 }
             } else {
                 print("There was an error retrieving photos.")
+                self.newCollectionButton.isEnabled = true
+                self.hideActivityIndicator()
             }
         })
     }
@@ -112,6 +125,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        self.newCollectionButton.isEnabled = false
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
         let cellImage = photos[indexPath.row]
         cell.photoImageView?.image = UIImage(named:"ImagePlaceholder")
@@ -120,9 +134,20 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
         PhotoSearch.downloadPhoto(url: url!) { (data, error) in
             DispatchQueue.main.async {
                 cell.photoImageView?.image = UIImage(data: data!)
+                self.newCollectionButton.isEnabled = true
             }
         }
         return cell
+    }
+    
+    func showActivityIndicator() {
+        myIndicator.isHidden = false
+        myIndicator.startAnimating()
+    }
+    
+    func hideActivityIndicator() {
+        myIndicator.stopAnimating()
+        myIndicator.isHidden = true
     }
 
 }

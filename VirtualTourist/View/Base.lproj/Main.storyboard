@@ -128,7 +128,7 @@
                                 <rect key="frame" x="0.0" y="817" width="414" height="49"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="1cx-MI-xUr"/>
-                                    <barButtonItem title="New Collection" id="cFP-CJ-X1Z" userLabel="New Collection">
+                                    <barButtonItem enabled="NO" title="New Collection" id="cFP-CJ-X1Z" userLabel="New Collection">
                                         <connections>
                                             <action selector="loadNewCollection:" destination="L42-aL-1KP" id="NTq-Xc-jhW"/>
                                         </connections>
@@ -158,6 +158,7 @@
                     <connections>
                         <outlet property="flowLayout" destination="sg7-BD-uKA" id="Bsb-p4-nAI"/>
                         <outlet property="mapView" destination="MSb-hq-3fu" id="9AY-05-sJC"/>
+                        <outlet property="newCollectionButton" destination="cFP-CJ-X1Z" id="kjB-kZ-oLp"/>
                         <outlet property="noPhotosLabel" destination="iRJ-zw-Pus" id="vWP-ed-dj7"/>
                         <outlet property="photoCollection" destination="XL4-1f-SPV" id="Fv2-DG-2vo"/>
                         <segue destination="BYZ-38-t0r" kind="showDetail" identifier="showPhotoAlbum" id="OcQ-Ou-niy"/>
