@@ -20,7 +20,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     @IBOutlet weak var newCollectionButton: UIBarButtonItem!
     
     let annotation = MKPointAnnotation()
-    //var selectedPin: CLLocationCoordinate2D!
     var myIndicator: UIActivityIndicatorView!
     var lat: Double = 0.0
     var lon: Double = 0.0
@@ -71,7 +70,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
             if (photos != nil) {
                 print("Photo results returned.")
                 self.photos = (photos?.photo)!
-                let randomPage = Int.random(in: 0...photos!.pages)
+                let randomPage = Int.random(in: 1...photos!.pages)
                 self.page = randomPage
                 print(self.page)
                 self.photoCollection.reloadData()
@@ -96,10 +95,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
         annotation.coordinate.latitude = lat
         annotation.coordinate.longitude = lon
         mapView.addAnnotation(annotation)
-        //lat = selectedPin.latitude
-        //lon = selectedPin.longitude
-       // print(selectedPin.latitude)
-       // print(selectedPin.longitude)
         mapView.showAnnotations(mapView.annotations, animated: true)
     }
     

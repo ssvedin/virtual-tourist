@@ -18,7 +18,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var deletePinsLabel: UILabel!
     
     var annotations = [MKPointAnnotation]()
-    //var selectedPinCoordinate: CLLocationCoordinate2D!
     var selectedLatitude: Double = 0.0
     var selectedLongitude: Double = 0.0
     
@@ -74,18 +73,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // MARK: Segue to Photo Album on pin tap
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate.latitude = selectedLatitude
-        annotation.coordinate.longitude = selectedLongitude
-        if isEditing {
-            mapView.removeAnnotation(annotation as MKAnnotation)
+        if isEditing, let viewAnnotation = view.annotation {
+            mapView.removeAnnotation(viewAnnotation)
             return
         }
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
-        //controller.selectedPin = annotation.coordinate
-        controller.lat = selectedLatitude
-        controller.lon = selectedLongitude
-        print(annotation.coordinate)
+        controller.lat = view.annotation?.coordinate.latitude ?? 0.0
+        controller.lon = view.annotation?.coordinate.longitude ?? 0.0
         self.navigationController?.pushViewController(controller, animated: true)
     }
  
