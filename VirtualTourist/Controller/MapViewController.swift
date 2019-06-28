@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     
@@ -17,9 +18,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var deletePinsLabel: UILabel!
     
-    var annotations = [MKPointAnnotation]()
-    var selectedLatitude: Double = 0.0
-    var selectedLongitude: Double = 0.0
+    var annotations = [MKPointAnnotation]() // added to use in viewWillAppear
+    var annotation = MKPointAnnotation()
+    //var selectedLatitude: Double = 0.0
+    //var selectedLongitude: Double = 0.0
+    var pins: [Pin] = []
+    
+    var dataController: DataController!
     
     // MARK: Life Cycle
     
@@ -30,6 +35,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.addGestureRecognizer(gestureRecognizer)
         self.navigationItem.rightBarButtonItem = self.editButtonItem
         self.navigationItem.rightBarButtonItem!.title = "Edit"
+        
+        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+        // TODO: need sortDescriptors?
+        if let result = try? dataController.viewContext.fetch(fetchRequest) {
+            pins = result
+            mapView.addAnnotation(annotation)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,14 +55,24 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if gestureReconizer.state == .began {
             let location = gestureReconizer.location(in: mapView)
             let coordinate = mapView.convert(location,toCoordinateFrom: mapView)
+            let pin = Pin(context: dataController.viewContext)
+            pin.latitude = coordinate.latitude
+            pin.longitude = coordinate.longitude
+            //print(coordinate.latitude)
+            //print(coordinate.longitude)
+            print(pin.latitude)
+            print(pin.longitude)
+            //try? dataController.viewContext.save()
             let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            selectedLatitude = coordinate.latitude
-            selectedLongitude = coordinate.longitude
-            self.annotations.append(annotation)
-            mapView.addAnnotation(annotation as MKAnnotation)
-            print(coordinate.latitude)
-            print(coordinate.longitude)
+            annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+            //selectedLatitude = coordinate.latitude
+            //selectedLongitude = coordinate.longitude
+            print(annotation.coordinate)
+            mapView.addAnnotation(annotation)
+            try? dataController.viewContext.save()
+            pins.append(pin)
+            mapView.reloadInputViews()//addAnnotation(annotation)
+            //self.annotations.append(annotation)
         }
     }
     
@@ -74,7 +96,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if isEditing, let viewAnnotation = view.annotation {
+            //let pinToDelete = pin(at: IndexPath)
+            //dataController.viewContext.delete(pinToDelete)
             mapView.removeAnnotation(viewAnnotation)
+            //try? dataController.viewContext.save()
             return
         }
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController

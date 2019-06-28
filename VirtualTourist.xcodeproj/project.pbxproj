@@ -17,6 +17,7 @@
 		04CA813622A431880098D10C /* PhotoSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA813522A431880098D10C /* PhotoSearch.swift */; };
 		04CA813822A4504D0098D10C /* PhotoSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA813722A4504D0098D10C /* PhotoSearchResponse.swift */; };
 		04CA813E22AC7D710098D10C /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA813D22AC7D710098D10C /* PhotoCollectionViewCell.swift */; };
+		04CA814822C1D2AD0098D10C /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA814722C1D2AD0098D10C /* DataController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		04CA813522A431880098D10C /* PhotoSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearch.swift; sourceTree = "<group>"; };
 		04CA813722A4504D0098D10C /* PhotoSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchResponse.swift; sourceTree = "<group>"; };
 		04CA813D22AC7D710098D10C /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		04CA814722C1D2AD0098D10C /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			children = (
 				04CA813722A4504D0098D10C /* PhotoSearchResponse.swift */,
 				04CA8125229F8E6F0098D10C /* VirtualTourist.xcdatamodeld */,
+				04CA814722C1D2AD0098D10C /* DataController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 				04CA811F229F8E6F0098D10C /* AppDelegate.swift in Sources */,
 				04CA8127229F8E6F0098D10C /* VirtualTourist.xcdatamodeld in Sources */,
 				04CA813422A32C1D0098D10C /* PhotoAlbumViewController.swift in Sources */,
+				04CA814822C1D2AD0098D10C /* DataController.swift in Sources */,
 				04CA813622A431880098D10C /* PhotoSearch.swift in Sources */,
 				04CA813822A4504D0098D10C /* PhotoSearchResponse.swift in Sources */,
 			);
