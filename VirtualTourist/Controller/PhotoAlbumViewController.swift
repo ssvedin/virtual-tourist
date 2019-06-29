@@ -9,14 +9,13 @@
 import UIKit
 import MapKit
 
-class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     // MARK: Outlets and properties
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var photoCollection: UICollectionView!
-    //@IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var noPhotosLabel: UILabel!
     @IBOutlet weak var newCollectionButton: UIBarButtonItem!
     
@@ -26,21 +25,14 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     var lon: Double = 0.0
     var page: Int = 0
     var photos: [Photo] = []
+    var cellsPerRow = 0
     
     // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
-        
-        //let space:CGFloat = 3.0
-        //let width = 120.0
-        //let height = 120.0
-        
-        
-        //flowLayout.minimumInteritemSpacing = space
-        //flowLayout.minimumLineSpacing = space
-        //flowLayout.itemSize = CGSize(width: size, height: size)
+        self.photoCollection.delegate = self
         
         myIndicator = UIActivityIndicatorView (style: UIActivityIndicatorView.Style.gray)
         self.view.addSubview(myIndicator)
@@ -139,17 +131,23 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.bounds.width / 3.0
-        let height = width
-        return CGSize(width: width, height: height)
-        
-        /*
-         let cellsPerRow = 3
          let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
          let totalSpace = flowLayout.sectionInset.left + flowLayout.sectionInset.right + (flowLayout.minimumInteritemSpacing * CGFloat(cellsPerRow - 1))
-         let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(cellsPerRow))
+         let size = Int((photoCollection.bounds.width - totalSpace) / CGFloat(cellsPerRow))
          return CGSize(width: size, height: size)
-         */
+    }
+    
+    override func viewWillLayoutSubviews() {
+        guard let flowLayout = photoCollection.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        if UIDevice.current.orientation == .portrait {
+            cellsPerRow = 3
+        } else {
+            cellsPerRow = 5
+        }
+        
+        flowLayout.invalidateLayout()
     }
     
     func showActivityIndicator() {

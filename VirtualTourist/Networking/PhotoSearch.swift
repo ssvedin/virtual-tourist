@@ -20,7 +20,7 @@ class PhotoSearch {
         var stringValue: String {
             switch self {
             case .getPhotos(let lat, let lon, let page):
-                return Endpoints.base + Endpoints.photoSearch + "&extras=url_sq" + "&api_key=\(Endpoints.apiKey)" + "&lat=\(lat)" + "&lon=\(lon)" + "&per_page=21" + "&page=\(page)" + "&format=json&nojsoncallback=1"
+                return Endpoints.base + Endpoints.photoSearch + "&extras=url_sq" + "&api_key=\(Endpoints.apiKey)" + "&lat=\(lat)" + "&lon=\(lon)" + "&per_page=30" + "&page=\(page)" + "&format=json&nojsoncallback=1"
             }
         }
         
