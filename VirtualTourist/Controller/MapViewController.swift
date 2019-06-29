@@ -23,7 +23,6 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
     //var selectedLatitude: Double = 0.0
     //var selectedLongitude: Double = 0.0
     var pins: [Pin] = []
-    
     var dataController: DataController!
     
     // MARK: Life Cycle
@@ -37,6 +36,18 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
         self.navigationItem.rightBarButtonItem!.title = "Edit"
         showActivityIndicator()
         
+        pins = fetchPins()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showActivityIndicator()
+        mapView.deselectAnnotation(annotations as? MKAnnotation, animated: false)
+        hideActivityIndicator()
+    }
+    
+    func fetchPins() -> [Pin] {
         let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
         // TODO: need sortDescriptors?
         do {
@@ -48,14 +59,7 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
             showAlert(message: "There was an error retrieving pins", title: "Sorry")
             hideActivityIndicator()
         }
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        showActivityIndicator()
-        mapView.deselectAnnotation(annotations as? MKAnnotation, animated: false)
-        hideActivityIndicator()
+        return pins
     }
     
     // MARK: Add pin on long press
