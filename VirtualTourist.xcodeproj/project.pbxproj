@@ -18,6 +18,7 @@
 		04CA813822A4504D0098D10C /* PhotoSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA813722A4504D0098D10C /* PhotoSearchResponse.swift */; };
 		04CA813E22AC7D710098D10C /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA813D22AC7D710098D10C /* PhotoCollectionViewCell.swift */; };
 		04CA814822C1D2AD0098D10C /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA814722C1D2AD0098D10C /* DataController.swift */; };
+		04CA814A22C7E49B0098D10C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04CA814922C7E49B0098D10C /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		04CA813722A4504D0098D10C /* PhotoSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchResponse.swift; sourceTree = "<group>"; };
 		04CA813D22AC7D710098D10C /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		04CA814722C1D2AD0098D10C /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		04CA814922C7E49B0098D10C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 		04CA813F22B88F610098D10C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				04CA814922C7E49B0098D10C /* BaseViewController.swift */,
 				04CA8120229F8E6F0098D10C /* MapViewController.swift */,
 				04CA813322A32C1D0098D10C /* PhotoAlbumViewController.swift */,
 				04CA813D22AC7D710098D10C /* PhotoCollectionViewCell.swift */,
@@ -190,6 +193,7 @@
 				04CA811F229F8E6F0098D10C /* AppDelegate.swift in Sources */,
 				04CA8127229F8E6F0098D10C /* VirtualTourist.xcdatamodeld in Sources */,
 				04CA813422A32C1D0098D10C /* PhotoAlbumViewController.swift in Sources */,
+				04CA814A22C7E49B0098D10C /* BaseViewController.swift in Sources */,
 				04CA814822C1D2AD0098D10C /* DataController.swift in Sources */,
 				04CA813622A431880098D10C /* PhotoSearch.swift in Sources */,
 				04CA813822A4504D0098D10C /* PhotoSearchResponse.swift in Sources */,

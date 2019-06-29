@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     // MARK: Outlets and properties
 
@@ -20,7 +20,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     @IBOutlet weak var newCollectionButton: UIBarButtonItem!
     
     let annotation = MKPointAnnotation()
-    var myIndicator: UIActivityIndicatorView!
     var lat: Double = 0.0
     var lon: Double = 0.0
     var page: Int = 0
@@ -33,16 +32,12 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
         super.viewDidLoad()
         mapView.delegate = self
         self.photoCollection.delegate = self
-        
-        myIndicator = UIActivityIndicatorView (style: UIActivityIndicatorView.Style.gray)
-        self.view.addSubview(myIndicator)
-        myIndicator.bringSubviewToFront(self.view)
-        myIndicator.center = self.view.center
         showActivityIndicator()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        showActivityIndicator()
         showSelectedPin()
         getPhotos()
     }
@@ -62,7 +57,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
     func getPhotos() {
         PhotoSearch.searchPhotos(lat: lat, lon: lon, page: page, completion: { (photos, error) in
             if (photos != nil) {
-                print("Photo results returned.")
                 self.photos = (photos?.photo)!
                 let randomPage = Int.random(in: 1...photos!.pages)
                 self.page = randomPage
@@ -70,12 +64,11 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
                 self.photoCollection.reloadData()
                 self.hideActivityIndicator()
                 if photos?.pages == 0 {
-                    print("There are no photos for this location.")
                     self.noPhotosLabel.isHidden = false
                     self.newCollectionButton.isEnabled = false
                 }
             } else {
-                print("There was an error retrieving photos.")
+                self.showAlert(message: "There was an error retrieving photos", title: "Sorry")
                 self.newCollectionButton.isEnabled = true
                 self.hideActivityIndicator()
             }
@@ -122,13 +115,20 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
         
         let url = URL(string: cellImage.url_sq)
         PhotoSearch.downloadPhoto(url: url!) { (data, error) in
-            DispatchQueue.main.async {
-                cell.photoImageView?.image = UIImage(data: data!)
-                self.newCollectionButton.isEnabled = true
+            if (data != nil) {
+                DispatchQueue.main.async {
+                    cell.photoImageView?.image = UIImage(data: data!)
+                    self.newCollectionButton.isEnabled = true
+                }
+            } else {
+                self.showAlert(message: "There was an error downloading photos", title: "Sorry")
             }
+
         }
         return cell
     }
+    
+    // MARK: Collection View Layout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
          let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
@@ -150,15 +150,5 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, UICollectio
         flowLayout.invalidateLayout()
     }
     
-    func showActivityIndicator() {
-        myIndicator.isHidden = false
-        myIndicator.startAnimating()
-    }
-    
-    func hideActivityIndicator() {
-        myIndicator.stopAnimating()
-        myIndicator.isHidden = true
-    }
-
 }
 

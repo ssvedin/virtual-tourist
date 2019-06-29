@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreData
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: BaseViewController, MKMapViewDelegate {
     
     // MARK: Outlets and Properties
     
@@ -35,18 +35,27 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.addGestureRecognizer(gestureRecognizer)
         self.navigationItem.rightBarButtonItem = self.editButtonItem
         self.navigationItem.rightBarButtonItem!.title = "Edit"
+        showActivityIndicator()
         
         let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
         // TODO: need sortDescriptors?
-        if let result = try? dataController.viewContext.fetch(fetchRequest) {
+        do {
+            let result = try dataController.viewContext.fetch(fetchRequest)
             pins = result
             mapView.addAnnotation(annotation)
+            hideActivityIndicator()
+        } catch {
+            showAlert(message: "There was an error retrieving pins", title: "Sorry")
+            hideActivityIndicator()
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        showActivityIndicator()
         mapView.deselectAnnotation(annotations as? MKAnnotation, animated: false)
+        hideActivityIndicator()
     }
     
     // MARK: Add pin on long press
@@ -73,6 +82,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             pins.append(pin)
             mapView.reloadInputViews()//addAnnotation(annotation)
             //self.annotations.append(annotation)
+            hideActivityIndicator()
+            
         }
     }
     
