@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="5J5-xf-0uN">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                             </mapView>
                             <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O7m-6R-Y4Q">
                                 <rect key="frame" x="0.0" y="822" width="414" height="40"/>
@@ -125,7 +125,7 @@
                                 </connections>
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KZF-cz-Csd">
-                                <rect key="frame" x="0.0" y="817" width="414" height="49"/>
+                                <rect key="frame" x="0.0" y="769" width="414" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="1cx-MI-xUr"/>
                                     <barButtonItem enabled="NO" title="New Collection" id="cFP-CJ-X1Z" userLabel="New Collection">
@@ -143,8 +143,8 @@
                             <constraint firstItem="MSb-hq-3fu" firstAttribute="trailing" secondItem="MMA-Dv-qhg" secondAttribute="trailing" id="3Ak-Ta-tdD"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="top" secondItem="MSb-hq-3fu" secondAttribute="bottom" constant="8" id="4RP-ao-ekw"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="top" secondItem="MMA-Dv-qhg" secondAttribute="top" constant="178" id="HnQ-1E-Ndi"/>
-                            <constraint firstAttribute="bottom" secondItem="KZF-cz-Csd" secondAttribute="bottom" constant="30" id="IF2-rG-kf4"/>
                             <constraint firstItem="KZF-cz-Csd" firstAttribute="leading" secondItem="59H-LI-8fT" secondAttribute="leading" id="M4Y-Kw-Ue0"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="KZF-cz-Csd" secondAttribute="bottom" id="PHM-q8-AKk"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="leading" secondItem="MMA-Dv-qhg" secondAttribute="leading" id="cWD-No-MA6"/>
                             <constraint firstItem="XL4-1f-SPV" firstAttribute="bottom" secondItem="MMA-Dv-qhg" secondAttribute="bottom" id="fOx-Qr-gKH"/>
                             <constraint firstItem="MSb-hq-3fu" firstAttribute="top" secondItem="MMA-Dv-qhg" secondAttribute="top" id="sUO-y5-ju6"/>
@@ -191,6 +191,6 @@
         <image name="ImagePlaceholder" width="100" height="100"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Nip-x2-XPg"/>
+        <segue reference="OcQ-Ou-niy"/>
     </inferredMetricsTieBreakers>
 </document>
