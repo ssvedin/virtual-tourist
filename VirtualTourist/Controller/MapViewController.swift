@@ -36,7 +36,15 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
         self.navigationItem.rightBarButtonItem!.title = "Edit"
         showActivityIndicator()
         
+        // populate maps with existing pins
         pins = fetchPins()
+        if pins.count > 0 {
+            for pin in pins {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+                mapView.addAnnotation(annotation)
+            }
+        }
         
     }
     
@@ -47,13 +55,13 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
         hideActivityIndicator()
     }
     
+    // MARK: Fetch pins
+    
     func fetchPins() -> [Pin] {
         let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-        // TODO: need sortDescriptors?
         do {
             let result = try dataController.viewContext.fetch(fetchRequest)
             pins = result
-            mapView.addAnnotation(annotation)
             hideActivityIndicator()
         } catch {
             showAlert(message: "There was an error retrieving pins", title: "Sorry")
@@ -71,11 +79,8 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
             let pin = Pin(context: dataController.viewContext)
             pin.latitude = coordinate.latitude
             pin.longitude = coordinate.longitude
-            //print(coordinate.latitude)
-            //print(coordinate.longitude)
             print(pin.latitude)
             print(pin.longitude)
-            //try? dataController.viewContext.save()
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
             //selectedLatitude = coordinate.latitude
@@ -84,10 +89,8 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
             mapView.addAnnotation(annotation)
             try? dataController.viewContext.save()
             pins.append(pin)
-            mapView.reloadInputViews()//addAnnotation(annotation)
-            //self.annotations.append(annotation)
+            mapView.reloadInputViews()
             hideActivityIndicator()
-            
         }
     }
     
@@ -110,13 +113,19 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
     // MARK: Segue to Photo Album on pin tap
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        // delete pin on tap when editing
         if isEditing, let viewAnnotation = view.annotation {
-            //let pinToDelete = pin(at: IndexPath)
-            //dataController.viewContext.delete(pinToDelete)
+            let pin = Pin(context: dataController.viewContext)
             mapView.removeAnnotation(viewAnnotation)
-            //try? dataController.viewContext.save()
+            dataController.viewContext.delete(pin)
+            do {
+                try dataController.viewContext.save()
+            } catch {
+                print("Error saving delete action")
+            }
             return
         }
+        
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         controller.lat = view.annotation?.coordinate.latitude ?? 0.0
         controller.lon = view.annotation?.coordinate.longitude ?? 0.0
