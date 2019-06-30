@@ -87,7 +87,11 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
             //selectedLongitude = coordinate.longitude
             print(annotation.coordinate)
             mapView.addAnnotation(annotation)
-            try? dataController.viewContext.save()
+            do {
+                try dataController.viewContext.save()
+            } catch {
+                showAlert(message: "There was an error saving the pin", title: "Sorry")
+            }
             pins.append(pin)
             mapView.reloadInputViews()
             hideActivityIndicator()
@@ -116,13 +120,13 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
         // delete pin on tap when editing
         if isEditing, let viewAnnotation = view.annotation {
             let pin = Pin(context: dataController.viewContext)
-            mapView.removeAnnotation(viewAnnotation)
             dataController.viewContext.delete(pin)
             do {
                 try dataController.viewContext.save()
             } catch {
-                print("Error saving delete action")
+                showAlert(message: "There was an error deleting pins", title: "Sorry")
             }
+            mapView.removeAnnotation(viewAnnotation)
             return
         }
         

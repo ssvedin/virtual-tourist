@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
@@ -24,7 +25,11 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
     var lon: Double = 0.0
     var page: Int = 0
     var photos: [Photo] = []
+    var flickrPhotos: [FlickrPhoto] = []
     var cellsPerRow = 0
+    
+    var pin: Pin!
+    var dataController: DataController!
     
     // MARK: Life Cycle
     
@@ -33,6 +38,12 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
         mapView.delegate = self
         self.photoCollection.delegate = self
         showActivityIndicator()
+        
+        flickrPhotos = fetchFlickrPhotos()
+        
+        if flickrPhotos.isEmpty {
+            getPhotos()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,11 +53,27 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
         getPhotos()
     }
     
+    func fetchFlickrPhotos() -> [FlickrPhoto] {
+        let fetchRequest: NSFetchRequest<FlickrPhoto> = FlickrPhoto.fetchRequest()
+        let predicate = NSPredicate(format: "pin == %@", pin)
+        fetchRequest.predicate = predicate
+        do {
+            let result = try dataController.viewContext.fetch(fetchRequest)
+            flickrPhotos = result
+            hideActivityIndicator()
+        } catch {
+            showAlert(message: "There was an error retrieving photos", title: "Sorry")
+            hideActivityIndicator()
+        }
+        return flickrPhotos
+    }
+    
     // MARK: Load new photo collection
     
     @IBAction func loadNewCollection(_ sender: UIBarButtonItem) {
         showActivityIndicator()
         newCollectionButton.isEnabled = false
+        clearPhotos()
         photos = []
         getPhotos()
         photoCollection.reloadData()
@@ -61,7 +88,8 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
                 let randomPage = Int.random(in: 1...photos!.pages)
                 self.page = randomPage
                 print(self.page)
-                self.photoCollection.reloadData()
+                self.getImageURL()
+                //self.photoCollection.reloadData()
                 self.hideActivityIndicator()
                 if photos?.pages == 0 {
                     self.noPhotosLabel.isHidden = false
@@ -73,6 +101,28 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
                 self.hideActivityIndicator()
             }
         })
+    }
+    
+    func getImageURL() {
+        for photo in photos {
+            let flickrPhoto = FlickrPhoto(context: dataController.viewContext)
+            flickrPhoto.imageUrl = photo.url_sq
+            flickrPhoto.pin = pin
+            flickrPhotos.append(flickrPhoto)
+        }
+        DispatchQueue.main.async {
+            try? self.dataController.viewContext.save()
+            self.photoCollection.reloadData()
+        }
+    }
+    
+    // MARK: Delete photo collection
+    
+    func clearPhotos() {
+        for flickrPhoto in flickrPhotos {
+            dataController.viewContext.delete(flickrPhoto)
+            try? self.dataController.viewContext.save()
+        }
     }
     
     // MARK: Selected pin
@@ -110,13 +160,16 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         self.newCollectionButton.isEnabled = false
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
-        let cellImage = photos[indexPath.row]
+        let cellImage = flickrPhotos[indexPath.row]
         cell.photoImageView?.image = UIImage(named:"ImagePlaceholder")
         
-        let url = URL(string: cellImage.url_sq)
+        let url = URL(string: cellImage.imageUrl ?? "")
         PhotoSearch.downloadPhoto(url: url!) { (data, error) in
             if (data != nil) {
                 DispatchQueue.main.async {
+                    cellImage.image = data
+                    cellImage.pin = self.pin
+                    try? self.dataController.viewContext.save()
                     cell.photoImageView?.image = UIImage(data: data!)
                     self.newCollectionButton.isEnabled = true
                 }
