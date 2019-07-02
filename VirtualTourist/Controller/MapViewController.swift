@@ -136,6 +136,7 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         controller.lat = view.annotation?.coordinate.latitude ?? 0.0
         controller.lon = view.annotation?.coordinate.longitude ?? 0.0
+        controller.dataController = dataController
         self.navigationController?.pushViewController(controller, animated: true)
     }
  

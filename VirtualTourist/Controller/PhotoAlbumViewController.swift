@@ -24,10 +24,9 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
     var lat: Double = 0.0
     var lon: Double = 0.0
     var page: Int = 0
+    var cellsPerRow = 0
     var photos: [Photo] = []
     var flickrPhotos: [FlickrPhoto] = []
-    var cellsPerRow = 0
-    
     var pin: Pin!
     var dataController: DataController!
     
@@ -39,7 +38,16 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
         self.photoCollection.delegate = self
         showActivityIndicator()
         
-        flickrPhotos = fetchFlickrPhotos()
+        guard pin != nil else {
+            return
+        }
+        
+        flickrPhotos = fetchFlickrPhotos()        
+        if flickrPhotos.count > 0 {
+            for flickrPhoto in flickrPhotos {
+                flickrPhotos.append(flickrPhoto)
+            }
+        }
         
         if flickrPhotos.isEmpty {
             getPhotos()
@@ -75,6 +83,7 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
         newCollectionButton.isEnabled = false
         clearPhotos()
         photos = []
+        flickrPhotos = []
         getPhotos()
         photoCollection.reloadData()
     }
@@ -84,16 +93,18 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
     func getPhotos() {
         PhotoSearch.searchPhotos(lat: lat, lon: lon, page: page, completion: { (photos, error) in
             if (photos != nil) {
-                self.photos = (photos?.photo)!
-                let randomPage = Int.random(in: 1...photos!.pages)
-                self.page = randomPage
-                print(self.page)
-                self.getImageURL()
-                //self.photoCollection.reloadData()
-                self.hideActivityIndicator()
                 if photos?.pages == 0 {
                     self.noPhotosLabel.isHidden = false
                     self.newCollectionButton.isEnabled = false
+                    self.hideActivityIndicator()
+                } else {
+                    self.photos = (photos?.photo)!
+                    let randomPage = Int.random(in: 1...photos!.pages)
+                    self.page = randomPage
+                    print(self.page)
+                    self.getImageURL()
+                    //self.photoCollection.reloadData()
+                    self.hideActivityIndicator()
                 }
             } else {
                 self.showAlert(message: "There was an error retrieving photos", title: "Sorry")
@@ -161,22 +172,29 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
         self.newCollectionButton.isEnabled = false
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
         let cellImage = flickrPhotos[indexPath.row]
-        cell.photoImageView?.image = UIImage(named:"ImagePlaceholder")
         
-        let url = URL(string: cellImage.imageUrl ?? "")
-        PhotoSearch.downloadPhoto(url: url!) { (data, error) in
-            if (data != nil) {
-                DispatchQueue.main.async {
-                    cellImage.image = data
-                    cellImage.pin = self.pin
-                    try? self.dataController.viewContext.save()
-                    cell.photoImageView?.image = UIImage(data: data!)
-                    self.newCollectionButton.isEnabled = true
+        if cellImage.image != nil {
+            cell.photoImageView.image = UIImage(data: cellImage.image!)
+            self.newCollectionButton.isEnabled = true
+        } else {
+           cell.photoImageView.image = UIImage(named: "ImagePlaceholder")
+            
+            if cellImage.imageUrl != nil {
+                let url = URL(string: cellImage.imageUrl ?? "")
+                PhotoSearch.downloadPhoto(url: url!) { (data, error) in
+                    if (data != nil) {
+                        DispatchQueue.main.async {
+                            cellImage.image = data
+                            cellImage.pin = self.pin
+                            try? self.dataController.viewContext.save()
+                            cell.photoImageView?.image = UIImage(data: data!)
+                            self.newCollectionButton.isEnabled = true
+                        }
+                    } else {
+                        self.showAlert(message: "There was an error downloading photos", title: "Sorry")
+                    }
                 }
-            } else {
-                self.showAlert(message: "There was an error downloading photos", title: "Sorry")
             }
-
         }
         return cell
     }
