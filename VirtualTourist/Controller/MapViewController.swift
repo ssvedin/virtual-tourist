@@ -119,8 +119,11 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         // delete pin on tap when editing
         if isEditing, let viewAnnotation = view.annotation {
-            let pin = Pin(context: dataController.viewContext)
-            dataController.viewContext.delete(pin)
+            for pin in pins {
+                if pin.latitude == view.annotation?.coordinate.latitude && pin.longitude == view.annotation?.coordinate.longitude {
+                    dataController.viewContext.delete(pin)
+                }
+            }
             do {
                 try dataController.viewContext.save()
             } catch {
