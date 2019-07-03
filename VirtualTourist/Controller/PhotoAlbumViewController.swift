@@ -206,15 +206,22 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let flickrPhoto = flickrPhotos[indexPath.row]
-        dataController.viewContext.delete(flickrPhoto)
-        flickrPhotos.remove(at: indexPath.row)
+        let alertVC = UIAlertController(title: "Delete", message: "Do you want to delete this photo?", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "Delete", style: .default, handler: { (action: UIAlertAction) in
+            let flickrPhoto = self.flickrPhotos[indexPath.row]
+            self.dataController.viewContext.delete(flickrPhoto)
+            self.flickrPhotos.remove(at: indexPath.row)
         do {
-            try dataController.viewContext.save()
+            try self.dataController.viewContext.save()
         } catch {
-            showAlert(message: "There was an error deleting photo", title: "Sorry")
+            self.showAlert(message: "There was an error deleting photo", title: "Sorry")
         }
-        photoCollection.reloadData()
+            self.photoCollection.reloadData()
+        }))
+            alertVC.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction) in
+                alertVC.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alertVC, animated: true)
     }
     
     // MARK: Collection View Layout
