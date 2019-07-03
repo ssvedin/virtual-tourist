@@ -46,11 +46,10 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
             for flickrPhoto in flickrPhotos {
                 flickrPhotos.append(flickrPhoto)
             }
-        }
-        
-        if flickrPhotos.isEmpty {
+        } else {
             getPhotos()
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,6 +82,7 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
         photos = []
         flickrPhotos = []
         getPhotos()
+        photoCollection.reloadData()
     }
     
     // MARK: Get random photos for selected pin
@@ -118,9 +118,13 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
             flickrPhoto.imageUrl = photo.url_sq
             flickrPhoto.pin = pin
             flickrPhotos.append(flickrPhoto)
+            do {
+                try self.dataController.viewContext.save()
+            } catch {
+                print("Unable to get image url")
+            }
         }
         DispatchQueue.main.async {
-            try? self.dataController.viewContext.save()
             self.photoCollection.reloadData()
         }
     }
@@ -193,12 +197,20 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
                             } catch {
                                 print("There was an error saving photos")
                             }
-                            cell.photoImageView?.image = UIImage(data: data!)
-                            self.newCollectionButton.isEnabled = true
+                            DispatchQueue.main.async {
+                                cell.photoImageView?.image = UIImage(data: data!)
+                            }
                         }
                     } else {
-                        self.showAlert(message: "There was an error downloading photos", title: "Sorry")
+                        DispatchQueue.main.async {
+                            self.showAlert(message: "There was an error downloading photos", title: "Sorry")
+                        }
+                        
                     }
+                    DispatchQueue.main.async {
+                        self.newCollectionButton.isEnabled = true
+                    }
+                    
                 }
             }
         }
