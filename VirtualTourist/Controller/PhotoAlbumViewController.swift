@@ -36,7 +36,6 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
         super.viewDidLoad()
         mapView.delegate = self
         self.photoCollection.delegate = self
-        showActivityIndicator()
         
         guard pin != nil else {
             return
@@ -79,18 +78,17 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
     // MARK: Load new photo collection
     
     @IBAction func loadNewCollection(_ sender: UIBarButtonItem) {
-        showActivityIndicator()
         newCollectionButton.isEnabled = false
         clearPhotos()
         photos = []
         flickrPhotos = []
         getPhotos()
-        photoCollection.reloadData()
     }
     
     // MARK: Get random photos for selected pin
     
     func getPhotos() {
+        showActivityIndicator()
         PhotoSearch.searchPhotos(lat: lat, lon: lon, page: page, completion: { (photos, error) in
             if (photos != nil) {
                 if photos?.pages == 0 {
@@ -103,7 +101,7 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
                     self.page = randomPage
                     print(self.page)
                     self.getImageURL()
-                    //self.photoCollection.reloadData()
+                    self.photoCollection.reloadData()
                     self.hideActivityIndicator()
                 }
             } else {
@@ -132,7 +130,11 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
     func clearPhotos() {
         for flickrPhoto in flickrPhotos {
             dataController.viewContext.delete(flickrPhoto)
-            try? self.dataController.viewContext.save()
+            do {
+                try self.dataController.viewContext.save()
+            } catch {
+                self.showAlert(message: "There was an error clearing the collection", title: "Sorry")
+            }
         }
     }
     
@@ -186,7 +188,11 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
                         DispatchQueue.main.async {
                             cellImage.image = data
                             cellImage.pin = self.pin
-                            try? self.dataController.viewContext.save()
+                            do {
+                                try self.dataController.viewContext.save()
+                            } catch {
+                                print("There was an error saving photos")
+                            }
                             cell.photoImageView?.image = UIImage(data: data!)
                             self.newCollectionButton.isEnabled = true
                         }
@@ -197,6 +203,18 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
             }
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let flickrPhoto = flickrPhotos[indexPath.row]
+        dataController.viewContext.delete(flickrPhoto)
+        flickrPhotos.remove(at: indexPath.row)
+        do {
+            try dataController.viewContext.save()
+        } catch {
+            showAlert(message: "There was an error deleting photo", title: "Sorry")
+        }
+        photoCollection.reloadData()
     }
     
     // MARK: Collection View Layout
