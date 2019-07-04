@@ -45,6 +45,7 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
         if flickrPhotos.count > 0 {
             for flickrPhoto in flickrPhotos {
                 flickrPhotos.append(flickrPhoto)
+                photoCollection.reloadData()
             }
         } else {
             getPhotos()
@@ -115,7 +116,7 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
     func getImageURL() {
         for photo in photos {
             let flickrPhoto = FlickrPhoto(context: dataController.viewContext)
-            flickrPhoto.imageUrl = photo.url_sq
+            flickrPhoto.imageUrl = photo.urlSq
             flickrPhoto.pin = pin
             flickrPhotos.append(flickrPhoto)
             do {

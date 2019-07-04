@@ -16,9 +16,14 @@ struct PhotoSearchResponse: Codable {
 struct Photos: Codable {
     let page: Int
     let pages: Int
-    let perpage: Int
+    let perPage: Int
     let total: String
     let photo: [Photo]
+    
+    enum CodingKeys: String, CodingKey {
+        case page, pages, total, photo
+        case perPage = "perpage"
+    }
 }
 
 struct Photo: Codable {
@@ -28,10 +33,17 @@ struct Photo: Codable {
     let server: String
     let farm: Int
     let title: String
-    let ispublic: Int
-    let isfriend: Int
-    let isfamily: Int
-    let url_sq: String
+    let isPublic: Int
+    let isFriend: Int
+    let isFamily: Int
+    let urlSq: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id, owner, secret, server, farm, title
+        case isPublic = "ispublic"
+        case isFriend = "isfriend"
+        case isFamily = "isfamily"
+        case urlSq = "url_sq"
+    }
 }
 
-// TODO: CodingKeys
