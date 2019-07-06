@@ -35,7 +35,6 @@ class PhotoSearch {
         var request = URLRequest(url: Endpoints.getPhotos(lat, lon, page).url)
         print(request)
         request.httpMethod = "GET"
-        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if error != nil {
                 completion(nil, error)

@@ -80,8 +80,6 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
             print(pin.longitude)
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-            //selectedLatitude = coordinate.latitude
-            //selectedLongitude = coordinate.longitude
             print(annotation.coordinate)
             mapView.addAnnotation(annotation)
             do {
