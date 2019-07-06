@@ -18,10 +18,8 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
     @IBOutlet weak var toolBar: UIToolbar!
     @IBOutlet weak var deletePinsLabel: UILabel!
     
-    var annotations = [MKPointAnnotation]() // added to use in viewWillAppear
+    var annotations = [MKPointAnnotation]()
     var annotation = MKPointAnnotation()
-    //var selectedLatitude: Double = 0.0
-    //var selectedLongitude: Double = 0.0
     var pins: [Pin] = []
     var dataController: DataController!
     
@@ -45,7 +43,6 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
                 mapView.addAnnotation(annotation)
             }
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -136,6 +133,12 @@ class MapViewController: BaseViewController, MKMapViewDelegate {
         let controller = storyboard?.instantiateViewController(withIdentifier: "PhotoAlbumViewController") as! PhotoAlbumViewController
         controller.lat = view.annotation?.coordinate.latitude ?? 0.0
         controller.lon = view.annotation?.coordinate.longitude ?? 0.0
+        for pin in pins {
+            if pin.latitude == view.annotation?.coordinate.latitude && pin.longitude == view.annotation?.coordinate.longitude {
+                controller.pin = pin
+            }
+            
+        }
         controller.dataController = dataController
         self.navigationController?.pushViewController(controller, animated: true)
     }

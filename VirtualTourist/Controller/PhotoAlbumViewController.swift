@@ -37,10 +37,6 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
         mapView.delegate = self
         self.photoCollection.delegate = self
         
-        guard pin != nil else {
-            return
-        }
-        
         flickrPhotos = fetchFlickrPhotos()        
         if flickrPhotos.count > 0 {
             for flickrPhoto in flickrPhotos {
@@ -50,7 +46,6 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
         } else {
             getPhotos()
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -143,7 +138,7 @@ class PhotoAlbumViewController: BaseViewController, MKMapViewDelegate, UICollect
         }
     }
     
-    // MARK: Selected pin
+    // MARK: Show selected annotation in map view
         
     func showSelectedPin() {
         mapView.removeAnnotations(mapView.annotations)
